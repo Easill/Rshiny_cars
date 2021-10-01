@@ -13,6 +13,7 @@ require(FactoMineR)      # For PCA,MCA,...
 require(lme4)            # For lmer,glmer
 library(shiny)
 require(shinydashboard)
+require(plotly)
 
 # # Define UI for application that draws a histogram
 shinyUI(
@@ -21,10 +22,10 @@ shinyUI(
         #Sidebar content
         dashboardSidebar(
             sidebarMenu(
-                menuItem("PCAs of Indiviuals and Variables", tabName = "pca", icon = icon("")),
+                menuItem("Visual Analysis", tabName = "pca", icon = icon("")),
                 menuItem("Model Selection", tabName = "model", icon = icon("")),
-                menuItem("Source Code for app", tabName = "code", icon=icon("file-code")),
-                menuItem("Datas",tabName = "data", icon=icon("th"))
+                menuItem("Datas",tabName = "data", icon=icon("th")),
+                menuItem("Source Code for app", tabName = "code", icon=icon("file-code"))
             )
         ),
         dashboardBody(
@@ -35,9 +36,15 @@ shinyUI(
                             column(width = 12, 
                                    tabBox(id = "plots_tab",
                                           tabPanel("Boxplot",
-                                                   (radioButtons(inputId = "VarBox", label= "Select variables for CO2 Boxplot", selected = names(cars[,1]),
-                                                                 choices = names(cars[c(1:3,6:7)])))
-                                                   
+                                                   fluidRow(
+                                                       column(width = 4,
+                                                              (radioButtons(inputId = "VarBox", label= "Select variables for CO2 Boxplot", selected = names(cars[,1]),
+                                                                            choices = names(cars[c(1:3,6:7)])))
+                                                       ),
+                                                       column(width = 8,
+                                                              plotOutput("moustache")
+                                                       )
+                                                   )
                                           ),
                                           tabPanel("Nuage de points"),
                                           tabPanel("ACP",
@@ -52,7 +59,6 @@ shinyUI(
                                                               )
                                                        )
                                                    )
-                                                   
                                           ),
                                           tabPanel("Matrice de Corrélation"),width=12), 
                             )
@@ -61,12 +67,16 @@ shinyUI(
                 #Second tab content
                 tabItem(tabName = "model",
                         fluidRow(
-                            checkboxGroupInput(inputId = "Model Var", label = "Select the number of variables for Model", selected = names(cars[,c(4:5,8:11)]),
-                                               choices = names(cars[,c(1:11)])),
-                            
+                            column(width = 12, checkboxGroupInput(inputId = "Model_Var", label = "Select the number of variables for Model", selected = names(cars[,c(4:5,8:11)]),
+                                                                  choices = names(cars[,c(1:11)])),
+                            )
                         )
                 ),
                 tabItem(tabName="code",
+                        fluidRow(
+                        )
+                ),
+                tabItem(tabName="data",
                         fluidRow(
                         )
                 )
