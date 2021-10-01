@@ -32,33 +32,38 @@ shinyUI(
                 #First tab content
                 tabItem(tabName = "pca",
                         fluidRow(
-                            box(width = 12,
-                                column(tabBox(id = "PCA_tab",
-                                              tabPanel("Boxplot",
-                                                       box((radioButtons(inputId = "VarBox", label= "Select variables for CO2 Boxplot", selected = names(cars[,1]),
-                                                                         choices = names(cars[c(1:3,6:7)])))
+                            column(width = 12, 
+                                   tabBox(id = "plots_tab",
+                                          tabPanel("Boxplot",
+                                                   (radioButtons(inputId = "VarBox", label= "Select variables for CO2 Boxplot", selected = names(cars[,1]),
+                                                                 choices = names(cars[c(1:3,6:7)])))
+                                                   
+                                          ),
+                                          tabPanel("Nuage de points"),
+                                          tabPanel("ACP",
+                                                   fluidRow(
+                                                       column(width=4,(checkboxGroupInput(inputId = "ACPCheck", label = "Select variables for ACP", selected = names(cars[,c(4:5,8:11)]),
+                                                                                          choices = names(cars[,c(4:5,8:11)])))
+                                                       ),
+                                                       column(width=8,
+                                                              tabBox(id="PCA_tab",
+                                                                     tabPanel("Variables",plotOutput("graph_pca_var")),
+                                                                     tabPanel("Individuals",plotOutput("graph_pca_ind"))
+                                                              )
                                                        )
-                                              ),
-                                              tabPanel("Nuage de points"),
-                                              tabPanel("ACP",
-                                                       box((checkboxGroupInput(inputId = "ACPCheck", label = "Select variables for ACP", selected = names(cars[,c(4:5,8:11)]),
-                                                                               choices = names(cars[,c(4:5,8:11)]))),
-                                                           tabPanel("Variables",plotOutput("graph_pca_var")),
-                                                           tabPanel("Individuals",plotOutput("graph_pca_ind")),width = 12
-                                                       )
-                                              ),
-                                              tabPanel("Matrice de Corrélation"),width=12), 
-                                       width=12
-                                )
+                                                   )
+                                                   
+                                          ),
+                                          tabPanel("Matrice de Corrélation"),width=12), 
                             )
                         )
                 ),
                 #Second tab content
                 tabItem(tabName = "model",
                         fluidRow(
-                            box(checkboxGroupInput(inputId = "Model Var", label = "Select the number of variables for Model", selected = names(cars[,c(4:5,8:11)]),
-                                                   choices = names(cars[,c(1:11)])),
-                            )
+                            checkboxGroupInput(inputId = "Model Var", label = "Select the number of variables for Model", selected = names(cars[,c(4:5,8:11)]),
+                                               choices = names(cars[,c(1:11)])),
+                            
                         )
                 ),
                 tabItem(tabName="code",

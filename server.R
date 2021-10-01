@@ -12,11 +12,11 @@ library(shiny)
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
     
-    
+
     res_pca <- reactive({
         PCA(cars[,input$ACPCheck], quali.sup = input$qualiCheck, graph = FALSE)
     })
-    
+
     output$graph_pca_ind <- renderPlot({
         plot.PCA(res_pca(), choix = "ind", axes = c(1,2))
     })
