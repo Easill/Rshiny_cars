@@ -30,7 +30,17 @@ shinyUI(
                                                        )
                                                    )
                                           ),
-                                          tabPanel("Nuage de points"),
+                                          tabPanel("Nuage de points",
+                                                   fluidRow(
+                                                       column(width = 4,
+                                                              (radioButtons(inputId = "VarScat", label= "Select variables for CO2 Scatter Plot", selected = names(cars[,4]),
+                                                                            choices = names(cars[c(4:5,8:11)])))
+                                                       ),
+                                                       column(width = 8,
+                                                              plotOutput("scat")
+                                                       )
+                                                   )
+                                          ),
                                           tabPanel("ACP",
                                                    fluidRow(
                                                        column(width=4,(checkboxGroupInput(inputId = "ACPCheck", label = "Select variables for ACP", selected = names(cars[,c(4:5,8:11)]),
@@ -57,31 +67,45 @@ shinyUI(
                         fluidRow(
                             column(width = 12, 
                                    fluidRow( # fluidRow1 (selections + graph poids variables)
-                                       column(width = 4, # colone selection des criteres
+                                       column(width = 8, #colone graph
                                               box(width = 12,
-                                                  title = "Choix du modèle", 
+                                                  title = "Poids des variables dans le modèle",
                                                   status = "info",
-                                                  radioButtons(inputId = "crit", # critere a optimiser
-                                                               label = "Critères à optimiser",
-                                                               choices = c("RSS" = "RSS",
-                                                                           "BIC" = "BIC",
-                                                                           "AIC" = "AIC"), 
-                                                               selected = "RSS"), 
+                                                  plotOutput("coef"),
                                                   sliderInput(inputId = "Nbvar", # Nb var dans le modele
                                                               label = "Nombre de variables à 
                                                    inclure dans le modèle", 
                                                               min = 1,
-                                                              max = 6, 
-                                                              value = 6),
-                                                  actionButton(inputId = "lancer", 
-                                                               label = "Lancer l'estimation !"
-                                                  )
+                                                              max = 6,
+                                                              value = 6)
                                               )
-                                       ), 
-                                       column(width = 8, #colone graph
+                                       ),
+                                       column(width = 4, # colone selection des criteres
                                               box(width = 12,
-                                                  title = "Poids des variables dans le modèle",
-                                                  status = "info"
+                                                  title = "Sélection exhaustive des variables", 
+                                                  status = "info",
+                                                  tabBox(width= 12,id = "Selection",
+                                                         tabPanel("RSS",
+                                                                  fluidRow(
+                                                                      column(width = 12,
+                                                                             plotOutput("Plrss"))
+                                                                  )
+                                                         ),
+                                                         tabPanel("BIC",
+                                                                  fluidRow(
+                                                                      column(width=12,
+                                                                             plotOutput("Plbic")
+                                                                      )
+                                                                  )
+                                                         ),
+                                                         tabPanel("AIC",
+                                                                  fluidRow(
+                                                                      column(width = 12,
+                                                                             plotOutput("Plaic")
+                                                                      )
+                                                                  )
+                                                         )
+                                                  )
                                               )
                                        )
                                    ),
@@ -89,7 +113,8 @@ shinyUI(
                                        column(width = 6, # colonne summary
                                               box(width = 12,
                                                   title = "Summary",
-                                                  status = "info"
+                                                  status = "info",
+                                                  verbatimTextOutput("suM")
                                               )
                                        ),
                                        column(width = 6, # colonne estimation de la performance
