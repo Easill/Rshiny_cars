@@ -31,8 +31,9 @@ mod0 <- glm(CO2 ~ 1,data = newdata) # Mod?le null
 
 select = summary(regsubsets(CO2~.,data=newdata,nvmax=6))
 
-bic = select$bic                                       # BIC
-aic = bic - (log(nrow(newdata))-2)*(c(2:7))       # AIC
+rss = select$rss
+bic = select$bic                                   # BIC
+aic = bic - (log(nrow(newdata))-2)*(c(2:7))            # AIC
 
 get_scat <- function(sel_var=1){
   selected <- select$which[sel_var,]
