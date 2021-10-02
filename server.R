@@ -1,18 +1,11 @@
-#
-# This is the server logic of a Shiny web application. You can run the
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+# Serveur
 
-library(shiny)
+
 
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
-    
+    # premier onglet
     
     res_pca <- reactive({
         PCA(cars[,input$ACPCheck], quali.sup = input$qualiCheck, graph = FALSE)
@@ -24,8 +17,17 @@ shinyServer(function(input, output, session) {
     output$graph_pca_var <- renderPlot({
         plot.PCA(res_pca(), choix = "var", axes = c(1,2))
     })
-    output$moustache <- renderPlot({
-        boxplot(CO2 ~ cars[,input$VarBox], data = cars,xlab = input$VarBox, ylab ="CO2", main = c("Boxplot of CO2 by",input$VarBox))
+    
+    
+    output$moustache <- renderPlot({ggplot(cars, aes(x=cars[,input$VarBox], y=CO2)) +
+            geom_boxplot()
+        #boxplot(CO2 ~ cars[,input$VarBox], data = cars,xlab = input$VarBox, ylab ="CO2", main = c("Boxplot of CO2 by",input$VarBox))
+    })
+    
+    # Deuxième onget 
+    
+    observe({
+        input$lancer
     })
     
 })
