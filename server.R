@@ -16,7 +16,7 @@ shinyServer(function(input, output) {
         plot.PCA(res_pca(), choix = "var", axes = c(1,2))
     })
     output$moustache <- renderPlot({
-        p1<-ggplot(cars, aes_string(x=input$VarBox, y=CO2)) +
+        p1<-ggplot(cars, aes(x=cars[,input$VarBox], y=CO2)) +
             geom_boxplot()
         #boxplot(CO2 ~ cars[,input$VarBox], data = cars,xlab = input$VarBox, ylab ="CO2", main = c("Boxplot of CO2 by",input$VarBox))
         p1
