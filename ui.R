@@ -1,3 +1,4 @@
+# # Define UI for application that draws a histogram
 # User interface
 shinyUI(
     dashboardPage(
@@ -43,67 +44,76 @@ shinyUI(
                                                        )
                                                    )
                                           ),
-                                          tabPanel("Matrice de Corrélation"),width=12), 
+                                          tabPanel("Matrice de Corrélation",
+                                                   fluidRow(
+                                                       plotOutput("matcorr")
+                                                   )
+                                          ),width=12), 
                             )
                         )
                 ),
                 #Second tab content
                 tabItem(tabName = "model",
-                        fluidRow( # fluidRow1 (selections + graph poids variables)
-                            column(width = 4, # colone selection des criteres
-                                   box(width = 12,
-                                       title = "Choix du modèle", 
-                                       status = "info",
-                                       radioButtons(inputId = "crit", # critere a optimiser
-                                                    label = "Critères à optimiser",
-                                                    choices = c("RSS" = "RSS",
-                                                                "BIC" = "BIC",
-                                                                "AIC" = "AIC"), 
-                                                    selected = "RSS"), 
-                                       sliderInput(inputId = "Nbvar", # Nb var dans le modele
-                                                   label = "Nombre de variables à 
+                        fluidRow(
+                            column(width = 12, 
+                                   fluidRow( # fluidRow1 (selections + graph poids variables)
+                                       column(width = 4, # colone selection des criteres
+                                              box(width = 12,
+                                                  title = "Choix du modèle", 
+                                                  status = "info",
+                                                  radioButtons(inputId = "crit", # critere a optimiser
+                                                               label = "Critères à optimiser",
+                                                               choices = c("RSS" = "RSS",
+                                                                           "BIC" = "BIC",
+                                                                           "AIC" = "AIC"), 
+                                                               selected = "RSS"), 
+                                                  sliderInput(inputId = "Nbvar", # Nb var dans le modele
+                                                              label = "Nombre de variables à 
                                                    inclure dans le modèle", 
-                                                   min = 1,
-                                                   max = 6, 
-                                                   value = 6),
-                                       actionButton(inputId = "lancer", 
-                                                    label = "Lancer l'estimation !"
-                                                    )
-                                   )
-                            ), 
-                            column(width = 8, #colone graph
-                                   box(width = 12,
-                                       title = "Poids des variables dans le modèle",
-                                       status = "info"
-                                   )
+                                                              min = 1,
+                                                              max = 6, 
+                                                              value = 6),
+                                                  actionButton(inputId = "lancer", 
+                                                               label = "Lancer l'estimation !"
+                                                  )
+                                              )
+                                       ), 
+                                       column(width = 8, #colone graph
+                                              box(width = 12,
+                                                  title = "Poids des variables dans le modèle",
+                                                  status = "info"
+                                              )
+                                       )
+                                   ),
+                                   fluidRow( #↑ fluidrow 2 (summary du modele + estimation de la perf)
+                                       column(width = 6, # colonne summary
+                                              box(width = 12,
+                                                  title = "Summary",
+                                                  status = "info"
+                                              )
+                                       ),
+                                       column(width = 6, # colonne estimation de la performance
+                                              box(width = 12,
+                                                  title = "Estimation de la performance",
+                                                  status = "info",
+                                                  "RMSE",
+                                                  br(),
+                                                  "Scatter plots"
+                                              )
+                                       )
+                                   ),
                                    
-                            )
-                        ),
-                        fluidRow( #↑ fluidrow 2 (summary du modele + estimation de la perf)
-                            column(width = 6, # colonne summary
-                                   box(width = 12,
-                                       title = "Summary",
-                                       status = "info"
-                                   )
                             ),
-                            column(width = 6, # colonne estimation de la performance
-                                   box(width = 12,
-                                       title = "Estimation de la performance",
-                                       status = "info",
-                                       "RMSE",
-                                       br(),
-                                       "Scatter plots"
-                                   )
+                            tabItem(tabName="code",
+                                    fluidRow(
+                                        column(width = 12,
+                                        )
+                                    )
+                            ),
+                            tabItem(tabName="data",
+                                    fluidRow(
+                                    )
                             )
-                        ),
-                        
-                ),
-                tabItem(tabName="code",
-                        fluidRow(
-                        )
-                ),
-                tabItem(tabName="data",
-                        fluidRow(
                         )
                 )
             )
