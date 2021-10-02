@@ -1,21 +1,4 @@
-cars <- read.table("https://raw.githubusercontent.com/Easill/Rshiny_cars/main/cars.csv",  sep = ";", dec = ".", header=TRUE, stringsAsFactors = TRUE)
-
-names(cars) <- c("Marque","Model","Classe","Moteur","Cylindre","Transmission","Fuel_Type","City_L_au_100","Hwy_L_au_100",
-                 "Comb_L_au_100","Comb_mpg","CO2")
-
-
-require(nnet)            # Multinomial logistic regression
-require(leaps)           # For regsubsets
-require(pls)             # For segments
-require(groupdata2)      # For fold
-require(boot)            # For cv.glm
-require(FactoMineR)      # For PCA,MCA,...
-require(lme4)            # For lmer,glmer
-library(shiny)
-require(shinydashboard)
-require(plotly)
-
-# # Define UI for application that draws a histogram
+# User interface
 shinyUI(
     dashboardPage(
         dashboardHeader(title = "Cars CO2"),
@@ -66,11 +49,54 @@ shinyUI(
                 ),
                 #Second tab content
                 tabItem(tabName = "model",
-                        fluidRow(
-                            column(width = 12, checkboxGroupInput(inputId = "Model_Var", label = "Select the number of variables for Model", selected = names(cars[,c(4:5,8:11)]),
-                                                                  choices = names(cars[,c(1:11)])),
+                        fluidRow( # fluidRow1 (selections + graph poids variables)
+                            column(width = 4, # colone selection des criteres
+                                   box(width = 12,
+                                       title = "Choix du modèle", 
+                                       status = "info",
+                                       radioButtons(inputId = "crit", # critere a optimiser
+                                                    label = "Critères à optimiser",
+                                                    choices = c("RSS" = "RSS",
+                                                                "BIC" = "BIC",
+                                                                "AIC" = "AIC"), 
+                                                    selected = "RSS"), 
+                                       sliderInput(inputId = "Nbvar", # Nb var dans le modele
+                                                   label = "Nombre de variables à 
+                                                   inclure dans le modèle", 
+                                                   min = 1,
+                                                   max = 6, 
+                                                   value = 6),
+                                       actionButton(inputId = "lancer", 
+                                                    label = "Lancer l'estimation !"
+                                                    )
+                                   )
+                            ), 
+                            column(width = 8, #colone graph
+                                   box(width = 12,
+                                       title = "Poids des variables dans le modèle",
+                                       status = "info"
+                                   )
+                                   
                             )
-                        )
+                        ),
+                        fluidRow( #↑ fluidrow 2 (summary du modele + estimation de la perf)
+                            column(width = 6, # colonne summary
+                                   box(width = 12,
+                                       title = "Summary",
+                                       status = "info"
+                                   )
+                            ),
+                            column(width = 6, # colonne estimation de la performance
+                                   box(width = 12,
+                                       title = "Estimation de la performance",
+                                       status = "info",
+                                       "RMSE",
+                                       br(),
+                                       "Scatter plots"
+                                   )
+                            )
+                        ),
+                        
                 ),
                 tabItem(tabName="code",
                         fluidRow(
