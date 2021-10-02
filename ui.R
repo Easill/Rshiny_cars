@@ -13,7 +13,7 @@ require(FactoMineR)      # For PCA,MCA,...
 require(lme4)            # For lmer,glmer
 library(shiny)
 require(shinydashboard)
-require(plotly)
+
 
 # # Define UI for application that draws a histogram
 shinyUI(
@@ -67,13 +67,23 @@ shinyUI(
                 #Second tab content
                 tabItem(tabName = "model",
                         fluidRow(
-                            column(width = 12, checkboxGroupInput(inputId = "Model_Var", label = "Select the number of variables for Model", selected = names(cars[,c(4:5,8:11)]),
-                                                                  choices = names(cars[,c(1:11)])),
+                            column(width = 12, 
+                                   fluidRow(
+                                       column(width = 3,radioButtons(inputId = "SubMod", label = "Select the criteria to get the best SubModel", selected = "RSS",
+                                                                     choices = c("AIC","BIC","RSS")),
+                                              sliderInput(inputId = "NbVar",label = "Best submodel with variables",min = 1,max = 6,value = 2,step = 1)
+                                       ),
+                                       column(width = 5, 
+                                              ),#plot output
+                                       column(width= 4, )
+                                   )
                             )
                         )
                 ),
                 tabItem(tabName="code",
                         fluidRow(
+                            column(width = 12,
+                                   )
                         )
                 ),
                 tabItem(tabName="data",

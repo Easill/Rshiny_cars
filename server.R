@@ -9,8 +9,9 @@
 
 library(shiny)
 
+
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
     
     
     res_pca <- reactive({
@@ -26,4 +27,5 @@ shinyServer(function(input, output) {
     output$moustache <- renderPlot({
         boxplot(CO2 ~ cars[,input$VarBox], data = cars,xlab = input$VarBox, ylab ="CO2", main = c("Boxplot of CO2 by",input$VarBox))
     })
+    
 })
