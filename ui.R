@@ -22,32 +22,56 @@ shinyUI(
                                           tabPanel("Boxplot",
                                                    fluidRow(
                                                        column(width = 4,
-                                                              (radioButtons(inputId = "VarBox", label= "Select variables for CO2 Boxplot", selected = names(cars[,1]),
-                                                                            choices = names(cars[c(1:3,6:7)])))
+                                                              (radioButtons(inputId = "VarBox", label= "Sélectionnez les variables qualitatives à représenter pour expliquer les emmissions de CO2", 
+                                                                            selected = names(cars[,1]),
+                                                                            choices = c("Marque" = names(cars[1]),
+                                                                                        "Modèle" = names(cars[2]),
+                                                                                        "Classe" = names(cars[3]),
+                                                                                        "Transmission" = names(cars[6]),
+                                                                                        "Type d'essence" = names(cars[7])
+                                                                            )
+                                                              )
+                                                              )
                                                        ),
                                                        column(width = 8,
-                                                              plotOutput("moustache")
+                                                              plotlyOutput("moustache")
                                                        )
                                                    )
                                           ),
                                           tabPanel("Nuage de points",
                                                    fluidRow(
                                                        column(width = 4,
-                                                              (radioButtons(inputId = "VarScat", label= "Select variables for CO2 Scatter Plot", selected = names(cars[,4]),
-                                                                            choices = names(cars[c(4:5,8:11)])))
+                                                              (radioButtons(inputId = "VarScat", label= "Sélectionnez les variables quantitatives à représenter pour expliquer les emmissions de CO2", 
+                                                                            selected = names(cars[,4]),
+                                                                            choices = c("Taille du moteur (en L)" = names(cars[4]),
+                                                                                        "Nombre de cylindres dans le moteur" = names(cars[5]),
+                                                                                        "Consommation de carburant en ville (L/100 km)" = names(cars[8]),
+                                                                                        "Consommation de carburant sur autoroute (L/100 km)" = names(cars[9]),
+                                                                                        "Consommation de carburant combinée (55 % en ville, 45 % sur route) (L/100 km)" = names(cars[10]),
+                                                                                        "Consommation de carburant combinée (55 % en ville, 45 % sur route) (miles per gallon)" = names(cars[11])
+                                                                            )))
                                                        ),
                                                        column(width = 8,
-                                                              plotOutput("scat")
+                                                              plotlyOutput("scat")
                                                        )
                                                    )
                                           ),
                                           tabPanel("ACP",
                                                    fluidRow(
-                                                       column(width=4,(checkboxGroupInput(inputId = "ACPCheck", label = "Select variables for ACP", selected = names(cars[,c(4:5,8:11)]),
-                                                                                          choices = names(cars[,c(4:5,8:11)])))
+                                                       column(width=4,(checkboxGroupInput(inputId = "ACPCheck", label = "Sélectionnez les variables principales pour réaliser une ACP", selected = names(cars[,c(4:5,8:11)]),
+                                                                                          choices = c("Taille du moteur (en L)" = names(cars[4]),
+                                                                                                      "Nombre de cylindres dans le moteur" = names(cars[5]),
+                                                                                                      "Consommation de carburant en ville (L/100 km)" = names(cars[8]),
+                                                                                                      "Consommation de carburant sur autoroute (L/100 km)" = names(cars[9]),
+                                                                                                      "Consommation de carburant combinée (55 % en ville, 45 % sur route) (L/100 km)" = names(cars[10]),
+                                                                                                      "Consommation de carburant combinée (55 % en ville, 45 % sur route) (miles per gallon)" = names(cars[11])
+                                                                                                      )
+                                                                                          )
+                                                                       )
                                                        ),
                                                        column(width=8,
-                                                              tabBox(id="PCA_tab",
+                                                              tabBox(width = 12,
+                                                                     id="PCA_tab",
                                                                      tabPanel("Variables",plotOutput("graph_pca_var")),
                                                                      tabPanel("Individuals",plotOutput("graph_pca_ind"))
                                                               )
@@ -55,8 +79,12 @@ shinyUI(
                                                    )
                                           ),
                                           tabPanel("Matrice de Corrélation",
-                                                   fluidRow(
-                                                       plotOutput("matcorr")
+                                                   fluidRow(width = 12,
+                                                            column(width = 12,
+                                                                   align="center",
+                                                                   plotOutput("matcorr",width = "90%")
+                                                            )
+                                                            
                                                    )
                                           ),width=12), 
                             )

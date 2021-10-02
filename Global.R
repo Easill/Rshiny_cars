@@ -18,6 +18,7 @@ library(shiny)
 require(shinydashboard)
 require(ggplot2)  # plots
 require(forcats)  # ordres boxplots
+require(plotly)
 
 
 
