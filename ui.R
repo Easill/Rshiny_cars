@@ -2,19 +2,46 @@
 # User interface
 shinyUI(
     dashboardPage(
-        dashboardHeader(title = "Cars CO2"),
+        skin = "red",
+        dashboardHeader(title = HTML(paste0("Cars CO",tags$sub("2")," emissions")),
+                        titleWidth = 250
+        ),
         #Sidebar content
         dashboardSidebar(
             sidebarMenu(
-                menuItem("Visual Analysis", tabName = "pca", icon = icon("")),
-                menuItem("Model Selection", tabName = "model", icon = icon("")),
+                menuItem("Home", tabName = "home", icon = icon("home", lib = "font-awesome")),
+                menuItem("Visual Analysis", tabName = "pca", icon = icon("chart-pie")),
+                menuItem("Model Selection", tabName = "model", icon = icon("wave-square")),
                 menuItem("Datas",tabName = "data", icon=icon("th")),
                 menuItem("Source Code for app", tabName = "code", icon=icon("file-code"))
             )
         ),
         dashboardBody(
             tabItems(
-                #First tab content
+                #First tab content 
+                tabItem(tabName = "home",
+                        fluidRow(
+                            column(width = 7,
+                                   br(),
+                                   p("
+                                   Ce jeu de données montre comment les émissions de CO2 d'un véhicule peuvent varier 
+                                   en fonction de ses différentes variables Les données ont été prises et compilées à 
+                                   partir du site officiel",
+                                     a("gouvernement Canadien", href="https://open.canada.ca/data/en/dataset/98f1a129-f628-4ce4-b24d-6f16bf24dd64#wb-auto-6"),
+                                   "Le jeu de données contient des données sur une période de 7 ans.
+                                   La variable à expliquer est alors l'émission de CO2 d'un véhicule, une variable quantitative. 
+                                   Il y a 11 variables explicatives qui sont à la fois qualitatives (la marque, le modèle, 
+                                   la classe, le nombre de cylindres, la transmission, le type de carburant) et quantitatives 
+                                   (la taille du réservoir, la consommation de carburant en ville, la consommation de carburant 
+                                   sur l'autoroute, la consommation de carburant combinée).",
+                                   style = "background-color:LightBlue;padding:15px;border-radius:10px")
+
+                            ),
+                            column(width=5,
+                                   tags$img(src="pollution.jpg",width="459px",height="287px")
+                            )
+                        )
+                ),
                 tabItem(tabName = "pca",
                         fluidRow(
                             column(width = 12, 
@@ -22,14 +49,13 @@ shinyUI(
                                           tabPanel("Boxplot",
                                                    fluidRow(
                                                        column(width = 4,
-                                                              (radioButtons(inputId = "VarBox", label= "Sélectionnez les variables qualitatives à représenter pour expliquer les emmissions de CO2", 
-                                                                            selected = names(cars[,1]),
-                                                                            choices = c("Marque" = names(cars[1]),
-                                                                                        "Modèle" = names(cars[2]),
-                                                                                        "Classe" = names(cars[3]),
-                                                                                        "Transmission" = names(cars[6]),
-                                                                                        "Type d'essence" = names(cars[7])
-                                                                            )
+                                                              (prettyRadioButtons(inputId = "VarBox", label= "Sélectionnez les variables qualitatives à représenter pour expliquer les emissions de CO2", 
+                                                                                  selected = names(cars[,1]),
+                                                                                  choices = var_quali,
+                                                                                  icon = icon("check"),
+                                                                                  bigger = TRUE,
+                                                                                  status = "warning",
+                                                                                  animation = "jelly"
                                                               )
                                                               )
                                                        ),
@@ -41,15 +67,11 @@ shinyUI(
                                           tabPanel("Nuage de points",
                                                    fluidRow(
                                                        column(width = 4,
-                                                              (radioButtons(inputId = "VarScat", label= "Sélectionnez les variables quantitatives à représenter pour expliquer les emmissions de CO2", 
+                                                              (radioButtons(inputId = "VarScat", label= "Sélectionnez les variables quantitatives à représenter pour expliquer les emissions de CO2", 
                                                                             selected = names(cars[,4]),
-                                                                            choices = c("Taille du moteur (en L)" = names(cars[4]),
-                                                                                        "Nombre de cylindres dans le moteur" = names(cars[5]),
-                                                                                        "Consommation de carburant en ville (L/100 km)" = names(cars[8]),
-                                                                                        "Consommation de carburant sur autoroute (L/100 km)" = names(cars[9]),
-                                                                                        "Consommation de carburant combinée (55 % en ville, 45 % sur route) (L/100 km)" = names(cars[10]),
-                                                                                        "Consommation de carburant combinée (55 % en ville, 45 % sur route) (miles per gallon)" = names(cars[11])
-                                                                            )))
+                                                                            choices = var_quanti
+                                                              )
+                                                              )
                                                        ),
                                                        column(width = 8,
                                                               plotlyOutput("scat")
@@ -65,9 +87,9 @@ shinyUI(
                                                                                                       "Consommation de carburant sur autoroute (L/100 km)" = names(cars[9]),
                                                                                                       "Consommation de carburant combinée (55 % en ville, 45 % sur route) (L/100 km)" = names(cars[10]),
                                                                                                       "Consommation de carburant combinée (55 % en ville, 45 % sur route) (miles per gallon)" = names(cars[11])
-                                                                                                      )
                                                                                           )
-                                                                       )
+                                                       )
+                                                       )
                                                        ),
                                                        column(width=8,
                                                               tabBox(width = 12,

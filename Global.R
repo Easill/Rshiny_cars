@@ -7,6 +7,7 @@ names(cars) <- c("Marque","Model","Classe","Moteur","Cylindre","Transmission","F
 
 # Chargement des packages
 library(shiny)
+library(shinyWidgets)
 require(nnet)            # Multinomial logistic regression
 require(leaps)           # For regsubsets
 require(pls)             # For segments
@@ -52,6 +53,22 @@ get_scat <- function(sel_var=1){
 
 
 # Boxplots
+# noms selection des variables
+var_quali<-c("marque" = names(cars[1]),
+             "modèle" = names(cars[2]),
+             "classe" = names(cars[3]),
+             "transmission" = names(cars[6]),
+             "type d'essence" = names(cars[7]))
+
+# Scatterplot
+# noms selection des variables 
+var_quanti<-c("taille du moteur (en L)" = names(cars[4]),
+              "nombre de cylindres dans le moteur" = names(cars[5]),
+              "consommation de carburant en ville (L/100 km)" = names(cars[8]),
+              "consommation de carburant sur autoroute (L/100 km)" = names(cars[9]),
+              "consommation de carburant combinée (55 % en ville, 45 % sur route) (L/100 km)" = names(cars[10]),
+              "consommation de carburant combinée (55 % en ville, 45 % sur route) (miles per gallon)" = names(cars[11]))
+
 
 # Matrice correlation
 
@@ -61,5 +78,6 @@ cormat<-cor(newdata) # matrice de correlation
 meltcormat <- reshape2::melt(cormat)
 colnames(meltcormat) <- c("x", "y", "value")
 
-
-
+# cf td ME
+# require(fields)
+# image.plot(cormat)
