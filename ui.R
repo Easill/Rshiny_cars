@@ -74,7 +74,7 @@ shinyUI(
                                                                                   bigger = TRUE,
                                                                                   status = "warning",
                                                                                   animation = "jelly"
-                                                                                  )
+                                                              )
                                                               ),
                                                               align = "text-align: justify"
                                                        ),
@@ -201,8 +201,12 @@ shinyUI(
                             column(width = 12,
                                    tabBox(width = 12,
                                           id="tableaux",
-                                          tabPanel("Résumé",verbatimTextOutput("summary")),
-                                          tabPanel("Données brutes",tableOutput("tab"))
+                                          tabPanel("Résumé",
+                                                   verbatimTextOutput("summary")
+                                          ),
+                                          tabPanel("Données brutes",
+                                                   dataTableOutput("tab")
+                                          )
                                    )
                             )
                         )
