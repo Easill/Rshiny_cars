@@ -188,12 +188,6 @@ shinyUI(
                             )
                         )
                 ),
-                tabItem(tabName="code",
-                        fluidRow(
-                            column(width = 12
-                            )
-                        )
-                ),
                 tabItem(tabName="data",
                         fluidRow(
                             column(width = 12,
@@ -209,6 +203,37 @@ shinyUI(
                             )
                         )
                         
+                ),
+                tabItem(tabName="code",
+                        fluidRow(
+                            column(width=12,
+                                   tabBox(width = 12,
+                                          id="Codes",
+                                          tabPanel(title = "ui.R",
+                                                   fluidRow(
+                                                       column(width = 12,
+                                                              verbatimTextOutput("ui")
+                                                       )
+                                                   )
+                                          ),
+                                          
+                                          tabPanel(title="server.R",
+                                                   fluidRow(
+                                                       column(width = 12,
+                                                              verbatimTextOutput("serveur")
+                                                       )
+                                                   )
+                                          ),
+                                          tabPanel(title="Global.R",
+                                                   fluidRow(
+                                                       column(width = 12,
+                                                              verbatimTextOutput("glbl")
+                                                       )
+                                                   )
+                                          )
+                                   )
+                            )
+                        )
                 )
             )
         )

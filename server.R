@@ -87,9 +87,9 @@ shinyServer(function(input, output, session) {
             ggtitle("Poids des variables dans le modèle") +
             xlab("Variables")+
             ylab("Scores")+
-            theme(plot.title = element_text(hjust = 0.5, size = 15),
-                  axis.title.x = element_text(size = 10),
-                  axis.title.y = element_text(size = 10)
+            theme(plot.title = element_text(hjust = 0.5, size = 10),
+                  axis.title.x = element_text(size = 15),
+                  axis.title.y = element_text(size = 15)
                   )
         ggplotly(p)
     })
