@@ -175,7 +175,7 @@ shinyUI(
                                                   status = "info",
                                                   textOutput("rmse"),
                                                   br(),
-                                                  "Scatter plots"
+                                                  plotlyOutput("scatter")
                                               )
                                        )
                                    )

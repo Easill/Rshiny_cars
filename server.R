@@ -24,7 +24,7 @@ shinyServer(function(input, output, session) {
                 }
                 
             }
-
+        
         ggplotly(p) # pour le rendre interactif
         
     })
@@ -43,7 +43,7 @@ shinyServer(function(input, output, session) {
             ylab(HTML(paste0("Emmissions de CO", tags$sub("2"))))+
             theme(plot.title = element_text(hjust = 0.5))
         ggplotly(p2)
-        })
+    })
     
     # les graphs de l'ACP
     
@@ -86,20 +86,43 @@ shinyServer(function(input, output, session) {
     
     Bestmod <- reactive({
         glm(CO2~.,data=newdata[,select$which[input$Nbvar,]])
-        })
+    })
     cvmod <- reactive({
         cv.glm(newdata,Bestmod(),K=10)
     })
     output$rmse <- renderText({
         c("RMSE Ajusté :",cvmod()$delta[2])
-        })
+    })
     
     output$title <- renderText({
         "Coefficients du modèle selectionné :"
     })
     output$suM <- renderPrint({
         Bestmod()$coef
+    }) #Coefficients du modèles affichés
+    
+    fitted.co2_2 <- reactive({
+        fitted(Bestmod())
+    }) # Fitted LMP values
+    
+    observed.co2_2 <- reactive({
+        newdata$CO2
+    }) # Observed LMP values
+    
+    dataplot <- reactive({
+        data.frame(observed.co2_2(),fitted.co2_2())
     })
+    
+    output$scatter <- renderPlotly({
+        p3 <- ggplot(dataplot(),aes(x=observed.co2_2(),y=fitted.co2_2())) +
+            geom_point(colour="black",alpha=0.5)+
+            ggtitle(HTML(paste0("Fitted versus observed CO2 values avec ",input$Nbvar," variables")))+
+            xlab("Observed CO2") + ylab("Fitted CO2")+
+            theme(plot.title=element_text((hjust=0.5)))+
+            geom_abline(slope = 1,intercept = 0,col="red")
+        ggplotly(p3)
+    })
+    
     
     output$Plbic <- renderPlot({
         plot(1:6,bic,pch=16,bty="l",type="b",xlab="Number of explanatory variables",
