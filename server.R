@@ -91,7 +91,7 @@ shinyServer(function(input, output, session) {
         cv.glm(newdata,Bestmod(),K=10)
     })
     output$rmse <- renderText({
-        c("RMSE Ajusté :",cvmod()$delta[2])
+        c("RMSE Ajusté :",round(cvmod()$delta[2],2))
     })
     
     output$title <- renderText({
