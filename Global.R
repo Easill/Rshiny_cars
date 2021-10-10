@@ -38,20 +38,6 @@ rss = select$rss
 bic = select$bic                                   # BIC
 aic = bic - (log(nrow(newdata))-2)*(c(2:7))            # AIC
 
-get_scat <- function(sel_var=1){
-  selected <- select$which[sel_var,]
-  mod <- glm(CO2~.,data=newdata[,selected])
-  fitted.co2_2 = fitted(mod) # Fitted LMP values
-  observed.co2_2 = newdata$CO2   # Observed LMP values
-  R2 <- cor(observed.co2_2,fitted.co2_2)^2
-  plot(observed.co2_2,fitted.co2_2,type="p",pch=16,bty="n",xlab="Observed CO2",
-       ylab="Fitted CO2",main="Fitted versus observed CO2 values",
-       cex.lab=1.25,cex.axis=1.25,cex.main=1.25)
-  abline(0,1,lwd = 3, col = 'red')
-  text(175,450,paste("R2=",round(R2,3)),cex=1.25)
-}
-
-
 
 # Boxplots
 # noms selection des variables
@@ -60,10 +46,6 @@ var_quali<-c("marque" = names(cars[1]),
              "classe" = names(cars[3]),
              "transmission" = names(cars[6]),
              "type d'essence" = names(cars[7]))
-
-# Scatterplot
-
-
 
 # noms selection des variables 
 var_quanti<-c("taille du moteur (en L)" = names(cars[4]),
@@ -81,6 +63,3 @@ cormat<-cor(newdata) # matrice de correlation
 
 meltcormat <- reshape2::melt(cormat)
 colnames(meltcormat) <- c("x", "y", "value")
-
-
-js <- c()
