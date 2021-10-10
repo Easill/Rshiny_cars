@@ -172,6 +172,7 @@ shinyUI(
                                               box(width = 12,
                                                   title = "Summary",
                                                   status = "info",
+                                                  textOutput("title"),
                                                   verbatimTextOutput("suM")
                                               )
                                        ),
@@ -179,7 +180,7 @@ shinyUI(
                                               box(width = 12,
                                                   title = "Estimation de la performance",
                                                   status = "info",
-                                                  "RMSE",
+                                                  textOutput("rmse"),
                                                   br(),
                                                   "Scatter plots"
                                               )
