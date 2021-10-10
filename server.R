@@ -82,7 +82,7 @@ shinyServer(function(input, output, session) {
     })
     
     output$coef <- renderPlotly({
-        p<-ggplot(t(coeff())[,-1], aes(x= rownames(coeff()[-1]), y=coeff()$Estimate))+
+        p<-ggplot(coeff(), aes(x= rownames(coeff()), y=coeff()$Estimate))+
             geom_bar(stat="identity", fill="#00c0ef", alpha = 0.6)+
             ggtitle("Poids des variables dans le modèle") +
             xlab("Variables")+
