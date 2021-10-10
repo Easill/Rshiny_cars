@@ -195,19 +195,18 @@ shinyUI(
                                    tabBox(width = 12,
                                           id="tableaux",
                                           tabPanel("Résumé",
-                                                   fluidRow(
-                                                       column(width = 8,
-                                                              verbatimTextOutput("summary")      
-                                                       )  
-                                                   )
+                                                   verbatimTextOutput("summary")
                                           ),
-                                          tabPanel("Données brutes",tableOutput("tab"))
+                                          tabPanel("Données brutes",
+                                                   dataTableOutput("tab")
+                                          )
                                    )
-                                   
                             )
                         )
+                        
                 )
             )
         )
     )
 )
+
