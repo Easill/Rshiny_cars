@@ -45,10 +45,10 @@ shinyUI(
                                        "Les données utilisées pour répondre à cette question ont été prises et 
                                    compilées à partir du site officiel du",
                                        a("gouvernement Canadien", href="https://open.canada.ca/data/en/dataset/98f1a129-f628-4ce4-b24d-6f16bf24dd64#wb-auto-6"),
-                                       ". Le jeu de données recoupe ainsi des données sur une période de 7 ans.",
+                                       "Le jeu de données recoupe ainsi des données sur une période de 7 ans.",
                                        br(),
-                                       "La variable à expliquer est alors", tags$b("l'émission de CO2"),"d'un véhicule, une variable",tags$b("quantitative"),". 
-                                   Il y a",tags$b("11 variables explicatives"), "qui sont à la fois",tags$b("qualitatives"),"(la marque, le modèle, 
+                                       "La variable à expliquer est alors", tags$b("l'émission de CO2"),"d'un véhicule, une variable",tags$b("quantitative"),
+                                       "Il y a",tags$b("11 variables explicatives"), "qui sont à la fois",tags$b("qualitatives"),"(la marque, le modèle, 
                                    la classe, le nombre de cylindres, la transmission, le type de carburant) et", tags$b("quantitatives"),"
                                    (la taille du réservoir, la consommation de carburant en ville, la consommation de carburant 
                                    sur l'autoroute, la consommation de carburant combinée).",
