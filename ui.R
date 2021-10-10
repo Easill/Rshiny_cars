@@ -1,14 +1,13 @@
-# # Define UI for application that draws a histogram
 # User interface
-# style page
 
 shinyUI(
+    # type de l'interface
     dashboardPage(
         skin = "purple",
         dashboardHeader(title = HTML(paste0("Cars CO",tags$sub("2")," emissions")),
                         titleWidth = 250
         ),
-        #Sidebar content
+        # Contenu de la sidebar
         dashboardSidebar(
             sidebarMenu(
                 menuItem("Home", tabName = "home", icon = icon("home", lib = "font-awesome")),
@@ -18,30 +17,46 @@ shinyUI(
                 menuItem("Source Code for app", tabName = "code", icon=icon("file-code"))
             )
         ),
+        # contenu du corps de la page
         dashboardBody(
-            tags$style(HTML(js)),
+            tags$style(HTML(
+                '.nav-tabs-custom .nav-tabs li.active {border-top-color: #00c0ef;}'
+            )), #pour la couleur des onglets
             tabItems(
                 #First tab content 
                 tabItem(tabName = "home",
                         fluidRow(
                             column(width = 7,
-                                   br(),
-                                   p("
-                                   Ce jeu de données montre comment les émissions de CO2 d'un véhicule peuvent varier 
-                                   en fonction de ses différentes variables Les données ont été prises et compilées à 
-                                   partir du site officiel",
-                                     a("gouvernement Canadien", href="https://open.canada.ca/data/en/dataset/98f1a129-f628-4ce4-b24d-6f16bf24dd64#wb-auto-6"),
-                                     "Le jeu de données contient des données sur une période de 7 ans.
-                                   La variable à expliquer est alors l'émission de CO2 d'un véhicule, une variable quantitative. 
-                                   Il y a 11 variables explicatives qui sont à la fois qualitatives (la marque, le modèle, 
-                                   la classe, le nombre de cylindres, la transmission, le type de carburant) et quantitatives 
+                                   h3("Contexte"),
+                                   p(
+                                       "L'accumulation de", tags$b("gaz à effet de serre"), "dans l'atmosphère est la principale
+                                   cause du changement climatique. Or, les transports, en particulier les voitures
+                                   sont une", tags$b("source importante"), "d'emmission de gaz à effet de serre.",
+                                       br(),
+                                       "Il est donc essentiel d'étudier les", tags$b("causes"), "d'emmission de CO",tags$sub("2"),
+                                       " de ces véhicules afin de pouvoir réduire leur impact sur", tags$b("l'environnement"),".",
+                                       br(),
+                                       style = "background-color:#e1d2b8;padding:20px;border-radius:10px;text-align:justify;font-size:18px"),
+                                   h3("Objectifs et données utilisées"),
+                                   p(
+                                       "Cette application a pour objectif de chercher les variables qui ont le 
+                                   plus d'impact sur les emmissions de CO",tags$sub("2")," d'une voiture.",
+                                       br(),
+                                       "Les données utilisées pour répondre à cette question ont été prises et 
+                                   compilées à partir du site officiel du",
+                                       a("gouvernement Canadien", href="https://open.canada.ca/data/en/dataset/98f1a129-f628-4ce4-b24d-6f16bf24dd64#wb-auto-6"),
+                                       ". Le jeu de données recoupe ainsi des données sur une période de 7 ans.",
+                                       br(),
+                                       "La variable à expliquer est alors", tags$b("l'émission de CO2"),"d'un véhicule, une variable",tags$b("quantitative"),". 
+                                   Il y a",tags$b("11 variables explicatives"), "qui sont à la fois",tags$b("qualitatives"),"(la marque, le modèle, 
+                                   la classe, le nombre de cylindres, la transmission, le type de carburant) et", tags$b("quantitatives"),"
                                    (la taille du réservoir, la consommation de carburant en ville, la consommation de carburant 
                                    sur l'autoroute, la consommation de carburant combinée).",
-                                     style = "background-color:LightBlue;padding:15px;border-radius:10px")
+                                       style = "background-color:#e1d2b8;padding:15px;border-radius:10px;text-align:justify;font-size:18px")
                                    
                             ),
                             column(width=5,
-                                   tags$img(src="pollution.jpg",width="459px",height="287px")
+                                   tags$img(src="pollution.jpg",width="459px",height="287px") # ajout de l'image
                             )
                         )
                 ),
@@ -77,9 +92,8 @@ shinyUI(
                                                                                   bigger = TRUE,
                                                                                   status = "info",
                                                                                   animation = "jelly"
-                                                                                  )
+                                                              )
                                                               ),
-                                                              align = "text-align: justify"
                                                        ),
                                                        column(width = 8,
                                                               plotlyOutput("scat")
@@ -92,8 +106,8 @@ shinyUI(
                                                                                            choices = var_quanti,
                                                                                            icon = icon("check-square"),
                                                                                            animation = "jelly"
-                                                       )
-                                                       )
+                                                                                           )
+                                                                       )
                                                        ),
                                                        column(width=8,
                                                               tabBox(width = 12,
@@ -170,7 +184,7 @@ shinyUI(
                                               box(width = 12,
                                                   title = "Summary",
                                                   status = "info",
-                                                  textOutput("title"),
+                                                  h3("Coefficients du modèle selectionné :"),
                                                   verbatimTextOutput("suM")
                                               )
                                        ),

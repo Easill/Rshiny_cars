@@ -11,6 +11,7 @@ shinyServer(function(input, output, session) {
             geom_boxplot(fill="slateblue", alpha=0.2)+
             ggtitle(paste0("Boxplot des modalités de la variable ", names(var_quali[var_quali==input$VarBox])," les plus émettrices de CO2")) +
             xlab(names(var_quali[var_quali==input$VarBox]))+
+            # règle le soucis des axes qui different en nombre de modalités
             if(length(levels(maxtauxCO2[,input$VarBox]))>100){
                 theme(axis.text.x=element_blank(),
                       axis.ticks = element_blank())
@@ -73,16 +74,17 @@ shinyServer(function(input, output, session) {
     # Deuxième onget
     # poids des variables
     
+    # modele
     Bestmod <- reactive({
         glm(CO2~.,data=newdata[,select$which[input$Nbvar,]])
     })
     
+    # on reccupere les coeffs
     coeff<-reactive({
         as.data.frame(summary(Bestmod())$coefficients[-1,])
     })
     
-    observe(print(coeff()))
-    
+    # plot du poids des variables (coefficients)
     output$coef <- renderPlotly({
         p<-ggplot(coeff(), aes(x= rownames(coeff()), y=coeff()$Estimate))+
             geom_bar(stat="identity", fill="#00c0ef", alpha = 0.6)+
@@ -96,43 +98,18 @@ shinyServer(function(input, output, session) {
         ggplotly(p)
     })
     
+    # optimisation du critère par cross validation
     cvmod <- reactive({
         cv.glm(newdata,Bestmod(),K=10)
     })
+    
+    # on sort le RMSE
     output$rmse <- renderText({
         c("RMSE Ajusté :",round(cvmod()$delta[2],2))
     })
     
-    output$title <- renderText({
-        "Coefficients du modèle selectionné :"
-    })
-    output$suM <- renderPrint({
-        summary(Bestmod())$coef
-    }) #Résulats du modèles affichés
-    
-    fitted.co2_2 <- reactive({
-        fitted(Bestmod())
-    }) # Fitted LMP values
-    
-    observed.co2_2 <- reactive({
-        newdata$CO2
-    }) # Observed LMP values
-    
-    dataplot <- reactive({
-        data.frame(observed.co2_2(),fitted.co2_2())
-    })
-    
-    output$scatter <- renderPlotly({
-        p3 <- ggplot(dataplot(),aes(x=observed.co2_2(),y=fitted.co2_2())) +
-            geom_point(colour="black",alpha=0.5)+
-            ggtitle(HTML(paste0("Fitted versus observed CO2 values avec ",input$Nbvar," variables")))+
-            xlab("Observed CO2") + ylab("Fitted CO2")+
-            theme(plot.title=element_text((hjust=0.5)))+
-            geom_abline(slope = 1,intercept = 0,col="red")
-        ggplotly(p3)
-    })
-    
-    
+    # plots optimisation des critères AIC, BIC et RSS en fonction du nb
+     # de variables prises en compte dans le modèle
     output$Plbic <- renderPlot({
         plot(1:6,bic,pch=16,bty="l",type="b",xlab="Number of explanatory variables",
              ylab="Information criterion",ylim=range(bic),col="darkgray",
@@ -155,6 +132,37 @@ shinyServer(function(input, output, session) {
         grid()
     })
     
+    output$suM <- renderPrint({
+        summary(Bestmod())$coef
+    }) #Résulats du modèle
+    
+    
+    # préparation des données pour le scatterplot
+    fitted.co2_2 <- reactive({
+        fitted(Bestmod())
+    }) # Fitted LMP values
+    
+    observed.co2_2 <- reactive({
+        newdata$CO2
+    }) # Observed LMP values
+    
+    # concaténation
+    dataplot <- reactive({
+        data.frame(observed.co2_2(),fitted.co2_2())
+    }) 
+    
+    # scatter plot données fittées et observées
+    output$scatter <- renderPlotly({
+        p3 <- ggplot(dataplot(),aes(x=observed.co2_2(),y=fitted.co2_2())) +
+            geom_point(colour="black",alpha=0.5)+
+            ggtitle(HTML(paste0("Fitted versus observed CO2 values avec ",input$Nbvar," variables")))+
+            xlab("Observed CO2") + ylab("Fitted CO2")+
+            theme(plot.title=element_text((hjust=0.5)))+
+            geom_abline(slope = 1,intercept = 0,col="red")
+        ggplotly(p3)
+    })
+    
+    
     # Onglet data 
     
     output$tab<-renderDataTable({
@@ -163,11 +171,7 @@ shinyServer(function(input, output, session) {
     output$summary<-renderPrint({
         summary(cars)
         })
-    
-    #onglet code 
-    
-    
-    
+
 })
 
 

@@ -83,4 +83,4 @@ meltcormat <- reshape2::melt(cormat)
 colnames(meltcormat) <- c("x", "y", "value")
 
 
-js <- c('.nav-tabs-custom .nav-tabs li.active {border-top-color: #00c0ef;}')
+js <- c()
