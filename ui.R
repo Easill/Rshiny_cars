@@ -74,7 +74,7 @@ shinyUI(
                                                                                   bigger = TRUE,
                                                                                   status = "warning",
                                                                                   animation = "jelly"
-                                                                                  )
+                                                              )
                                                               ),
                                                               align = "text-align: justify"
                                                        ),
@@ -86,16 +86,9 @@ shinyUI(
                                           tabPanel("ACP",
                                                    fluidRow(
                                                        column(width=4,(prettyCheckboxGroup(inputId = "ACPCheck", label = "Sélectionnez les variables principales pour réaliser une ACP", selected = names(cars[,c(4:5,8:11)]),
-                                                                                           choices = c("Taille du moteur (en L)" = names(cars[4]),
-                                                                                                       "Nombre de cylindres dans le moteur" = names(cars[5]),
-                                                                                                       "Consommation de carburant en ville (L/100 km)" = names(cars[8]),
-                                                                                                       "Consommation de carburant sur autoroute (L/100 km)" = names(cars[9]),
-                                                                                                       "Consommation de carburant combinée (55 % en ville, 45 % sur route) (L/100 km)" = names(cars[10]),
-                                                                                                       "Consommation de carburant combinée (55 % en ville, 45 % sur route) (miles per gallon)" = names(cars[11])
-                                                                                           ),
+                                                                                           choices = var_quanti,
                                                                                            icon = icon("check-square"),
                                                                                            animation = "jelly"
-                                                                                           
                                                        )
                                                        )
                                                        ),
@@ -116,7 +109,7 @@ shinyUI(
                                                             )
                                                             
                                                    )
-                                          ),width=12), 
+                                          ),width=12) 
                             )
                         )
                 ),
@@ -185,14 +178,14 @@ shinyUI(
                                                   "Scatter plots"
                                               )
                                        )
-                                   ),
+                                   )
                                    
                             )
                         )
                 ),
                 tabItem(tabName="code",
                         fluidRow(
-                            column(width = 12,
+                            column(width = 12
                             )
                         )
                 ),
@@ -201,9 +194,16 @@ shinyUI(
                             column(width = 12,
                                    tabBox(width = 12,
                                           id="tableaux",
-                                          tabPanel("Résumé",verbatimTextOutput("summary")),
+                                          tabPanel("Résumé",
+                                                   fluidRow(
+                                                       column(width = 8,
+                                                              verbatimTextOutput("summary")      
+                                                       )  
+                                                   )
+                                          ),
                                           tabPanel("Données brutes",tableOutput("tab"))
                                    )
+                                   
                             )
                         )
                 )

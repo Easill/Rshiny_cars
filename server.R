@@ -126,7 +126,9 @@ shinyServer(function(input, output, session) {
     # Onglet data 
     
     output$tab<-renderTable({cars})
-    output$summary<-renderPrint({summary(cars)})
+    output$summary<- renderPrint({
+        summary(cars) 
+    })
     
 })
 
