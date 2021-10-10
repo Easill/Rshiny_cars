@@ -146,5 +146,12 @@ shinyServer(function(input, output, session) {
         grid()
     })
     
+    # Onglet data 
+    
+    output$tab<-renderTable({cars})
+    output$summary<-renderPrint({summary(cars)})
+    
 })
+
+
 

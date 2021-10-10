@@ -28,14 +28,14 @@ shinyUI(
                                    en fonction de ses différentes variables Les données ont été prises et compilées à 
                                    partir du site officiel",
                                      a("gouvernement Canadien", href="https://open.canada.ca/data/en/dataset/98f1a129-f628-4ce4-b24d-6f16bf24dd64#wb-auto-6"),
-                                   "Le jeu de données contient des données sur une période de 7 ans.
+                                     "Le jeu de données contient des données sur une période de 7 ans.
                                    La variable à expliquer est alors l'émission de CO2 d'un véhicule, une variable quantitative. 
                                    Il y a 11 variables explicatives qui sont à la fois qualitatives (la marque, le modèle, 
                                    la classe, le nombre de cylindres, la transmission, le type de carburant) et quantitatives 
                                    (la taille du réservoir, la consommation de carburant en ville, la consommation de carburant 
                                    sur l'autoroute, la consommation de carburant combinée).",
-                                   style = "background-color:LightBlue;padding:15px;border-radius:10px")
-
+                                     style = "background-color:LightBlue;padding:15px;border-radius:10px")
+                                   
                             ),
                             column(width=5,
                                    tags$img(src="pollution.jpg",width="459px",height="287px")
@@ -68,14 +68,15 @@ shinyUI(
                                                    fluidRow(
                                                        column(width = 4,
                                                               (prettyRadioButtons(inputId = "VarScat", label= "Sélectionnez les variables quantitatives à représenter pour expliquer les emissions de CO2", 
-                                                                            selected = names(cars[,4]),
-                                                                            choices = var_quanti,
-                                                                            icon = icon("check"),
-                                                                            bigger = TRUE,
-                                                                            status = "warning",
-                                                                            animation = "jelly"
-                                                              )
-                                                              )
+                                                                                  selected = names(cars[,4]),
+                                                                                  choices = var_quanti,
+                                                                                  icon = icon("check"),
+                                                                                  bigger = TRUE,
+                                                                                  status = "warning",
+                                                                                  animation = "jelly"
+                                                                                  )
+                                                              ),
+                                                              align = "text-align: justify"
                                                        ),
                                                        column(width = 8,
                                                               plotlyOutput("scat")
@@ -85,16 +86,16 @@ shinyUI(
                                           tabPanel("ACP",
                                                    fluidRow(
                                                        column(width=4,(prettyCheckboxGroup(inputId = "ACPCheck", label = "Sélectionnez les variables principales pour réaliser une ACP", selected = names(cars[,c(4:5,8:11)]),
-                                                                                          choices = c("Taille du moteur (en L)" = names(cars[4]),
-                                                                                                      "Nombre de cylindres dans le moteur" = names(cars[5]),
-                                                                                                      "Consommation de carburant en ville (L/100 km)" = names(cars[8]),
-                                                                                                      "Consommation de carburant sur autoroute (L/100 km)" = names(cars[9]),
-                                                                                                      "Consommation de carburant combinée (55 % en ville, 45 % sur route) (L/100 km)" = names(cars[10]),
-                                                                                                      "Consommation de carburant combinée (55 % en ville, 45 % sur route) (miles per gallon)" = names(cars[11])
-                                                                                          ),
-                                                                                          icon = icon("check-square"),
-                                                                                          animation = "jelly"
-                                                                                            
+                                                                                           choices = c("Taille du moteur (en L)" = names(cars[4]),
+                                                                                                       "Nombre de cylindres dans le moteur" = names(cars[5]),
+                                                                                                       "Consommation de carburant en ville (L/100 km)" = names(cars[8]),
+                                                                                                       "Consommation de carburant sur autoroute (L/100 km)" = names(cars[9]),
+                                                                                                       "Consommation de carburant combinée (55 % en ville, 45 % sur route) (L/100 km)" = names(cars[10]),
+                                                                                                       "Consommation de carburant combinée (55 % en ville, 45 % sur route) (miles per gallon)" = names(cars[11])
+                                                                                           ),
+                                                                                           icon = icon("check-square"),
+                                                                                           animation = "jelly"
+                                                                                           
                                                        )
                                                        )
                                                        ),
@@ -186,16 +187,23 @@ shinyUI(
                                        )
                                    ),
                                    
-                            ),
-                            tabItem(tabName="code",
-                                    fluidRow(
-                                        column(width = 12,
-                                        )
-                                    )
-                            ),
-                            tabItem(tabName="data",
-                                    fluidRow(
-                                    )
+                            )
+                        )
+                ),
+                tabItem(tabName="code",
+                        fluidRow(
+                            column(width = 12,
+                            )
+                        )
+                ),
+                tabItem(tabName="data",
+                        fluidRow(
+                            column(width = 12,
+                                   tabBox(width = 12,
+                                          id="tableaux",
+                                          tabPanel("Résumé",verbatimTextOutput("summary")),
+                                          tabPanel("Données brutes",tableOutput("tab"))
+                                   )
                             )
                         )
                 )
