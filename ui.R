@@ -1,8 +1,10 @@
 # # Define UI for application that draws a histogram
 # User interface
+# style page
+
 shinyUI(
     dashboardPage(
-        skin = "red",
+        skin = "purple",
         dashboardHeader(title = HTML(paste0("Cars CO",tags$sub("2")," emissions")),
                         titleWidth = 250
         ),
@@ -17,6 +19,7 @@ shinyUI(
             )
         ),
         dashboardBody(
+            tags$style(HTML(js)),
             tabItems(
                 #First tab content 
                 tabItem(tabName = "home",
@@ -54,7 +57,7 @@ shinyUI(
                                                                                   choices = var_quali,
                                                                                   icon = icon("check"),
                                                                                   bigger = TRUE,
-                                                                                  status = "warning",
+                                                                                  status = "info",
                                                                                   animation = "jelly"
                                                               )
                                                               )
@@ -72,9 +75,9 @@ shinyUI(
                                                                                   choices = var_quanti,
                                                                                   icon = icon("check"),
                                                                                   bigger = TRUE,
-                                                                                  status = "warning",
+                                                                                  status = "info",
                                                                                   animation = "jelly"
-                                                              )
+                                                                                  )
                                                               ),
                                                               align = "text-align: justify"
                                                        ),
@@ -122,10 +125,12 @@ shinyUI(
                                               box(width = 12,
                                                   title = "Poids des variables dans le modèle",
                                                   status = "info",
-                                                  plotOutput("coef"),
+                                                  plotlyOutput("coef"),
+                                                  chooseSliderSkin("Shiny", color = "#00c0ef"
+                                                  ),
                                                   sliderInput(inputId = "Nbvar", # Nb var dans le modele
                                                               label = "Nombre de variables à 
-                                                   inclure dans le modèle", 
+                                                              inclure dans le modèle", 
                                                               min = 1,
                                                               max = 6,
                                                               value = 6)
@@ -160,7 +165,7 @@ shinyUI(
                                               )
                                        )
                                    ),
-                                   fluidRow( #↑ fluidrow 2 (summary du modele + estimation de la perf)
+                                   fluidRow( # fluidrow 2 (summary du modele + estimation de la perf)
                                        column(width = 6, # colonne summary
                                               box(width = 12,
                                                   title = "Summary",

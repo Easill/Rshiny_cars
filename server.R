@@ -34,10 +34,6 @@ shinyServer(function(input, output, session) {
     output$scat <- renderPlotly({
         p2<-ggplot(cars, aes(x= cars[,input$VarScat], y=CO2)) +
             geom_point(colour="black", alpha=0.5)+
-            # geom_smooth(method=lm,
-            #             se=FALSE,
-            #             linetype="dashed",
-            #             color="red") +
             ggtitle(HTML(paste0("Emmissions de CO", tags$sub("2")," en fonction de la variable ", names(var_quanti[var_quanti==input$VarScat])))) +
             xlab(names(var_quanti[var_quanti==input$VarScat]))+
             ylab(HTML(paste0("Emmissions de CO", tags$sub("2"))))+
@@ -76,17 +72,28 @@ shinyServer(function(input, output, session) {
     
     # Deuxième onget
     # poids des variables
-    output$coef <- renderPlot({
-        barplot(coef(glm(CO2~.,data=newdata[,select$which[input$Nbvar,bic]])),
-                main = "Poids des variables dans le modèle",
-                xlab = "Variables",
-                ylab = "Scores",
-                cex.names= 0.8)
-    })
     
     Bestmod <- reactive({
         glm(CO2~.,data=newdata[,select$which[input$Nbvar,]])
     })
+    
+    coeff<-reactive({
+        as.data.frame(summary(Bestmod())$coefficients)
+    })
+    
+    output$coef <- renderPlotly({
+        p<-ggplot(coeff(), aes(x= rownames(coeff()), y=coeff()$Estimate))+
+            geom_bar(stat="identity", fill="#00c0ef", alpha = 0.6)+
+            ggtitle("Poids des variables dans le modèle") +
+            xlab("Variables")+
+            ylab("Scores")+
+            theme(plot.title = element_text(hjust = 0.5, size = 15),
+                  axis.title.x = element_text(size = 10),
+                  axis.title.y = element_text(size = 10)
+                  )
+        ggplotly(p)
+    })
+    
     cvmod <- reactive({
         cv.glm(newdata,Bestmod(),K=10)
     })
@@ -98,8 +105,8 @@ shinyServer(function(input, output, session) {
         "Coefficients du modèle selectionné :"
     })
     output$suM <- renderPrint({
-        Bestmod()$coef
-    }) #Coefficients du modèles affichés
+        summary(Bestmod())$coef
+    }) #Résulats du modèles affichés
     
     fitted.co2_2 <- reactive({
         fitted(Bestmod())

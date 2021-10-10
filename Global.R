@@ -78,6 +78,5 @@ cormat<-cor(newdata) # matrice de correlation
 meltcormat <- reshape2::melt(cormat)
 colnames(meltcormat) <- c("x", "y", "value")
 
-# cf td ME
-# require(fields)
-# image.plot(cormat)
+
+js <- c('.nav-tabs-custom .nav-tabs li.active {border-top-color: #00c0ef;}')
