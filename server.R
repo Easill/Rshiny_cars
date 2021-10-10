@@ -85,10 +85,21 @@ shinyServer(function(input, output, session) {
     })
     
     Bestmod <- reactive({
-        glm(CO2~.,data=newdata[,select$which[input$Nbvar,bic]])
+        glm(CO2~.,data=newdata[,select$which[input$Nbvar,]])
+        })
+    cvmod <- reactive({
+        cv.glm(newdata,Bestmod(),K=10)
+    })
+    output$rmse <- renderText({
+        c("RMSE Ajusté :",cvmod()$delta[2])
         })
     
-    output$suM <- renderPrint(summary(Bestmod()))
+    output$title <- renderText({
+        "Coefficients du modèle selectionné :"
+    })
+    output$suM <- renderPrint({
+        Bestmod()$coef
+    })
     
     output$Plbic <- renderPlot({
         plot(1:6,bic,pch=16,bty="l",type="b",xlab="Number of explanatory variables",
