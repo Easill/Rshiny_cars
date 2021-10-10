@@ -78,8 +78,10 @@ shinyServer(function(input, output, session) {
     })
     
     coeff<-reactive({
-        as.data.frame(summary(Bestmod())$coefficients)
+        as.data.frame(summary(Bestmod())$coefficients[-1,])
     })
+    
+    observe(print(coeff()))
     
     output$coef <- renderPlotly({
         p<-ggplot(coeff(), aes(x= rownames(coeff()), y=coeff()$Estimate))+
