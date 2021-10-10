@@ -162,6 +162,10 @@ shinyServer(function(input, output, session) {
         summary(cars)
         })
     
+    #onglet code 
+    
+    
+    
 })
 
 
