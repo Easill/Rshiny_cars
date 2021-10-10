@@ -70,8 +70,8 @@ var_quanti<-c("taille du moteur (en L)" = names(cars[4]),
               "nombre de cylindres dans le moteur" = names(cars[5]),
               "consommation de carburant en ville (L/100 km)" = names(cars[8]),
               "consommation de carburant sur autoroute (L/100 km)" = names(cars[9]),
-              "consommation de carburant combinée (55 % en ville, 45 % sur route) (L/100 km)" = names(cars[10]),
-              "consommation de carburant combinée (55 % en ville, 45 % sur route) (miles per gallon)" = names(cars[11]))
+              "consommation de carburant combinée (L/100 km)" = names(cars[10]),
+              "consommation de carburant combinée (miles per gallon)" = names(cars[11]))
 
 
 # Matrice correlation
