@@ -14,7 +14,8 @@ shinyUI(
                 menuItem("Visual Analysis", tabName = "pca", icon = icon("chart-pie")),
                 menuItem("Model Selection", tabName = "model", icon = icon("wave-square")),
                 menuItem("Datas",tabName = "data", icon=icon("th")),
-                menuItem("Source Code for app", tabName = "code", icon=icon("file-code"))
+                menuItem("Source Code for app", tabName = "code", icon=icon("file-code")),
+                menuItem("About", tabName = "about", icon=icon("address-book"))
             )
         ),
         # contenu du corps de la page
@@ -106,8 +107,8 @@ shinyUI(
                                                                                            choices = var_quanti,
                                                                                            icon = icon("check-square"),
                                                                                            animation = "jelly"
-                                                                                           )
-                                                                       )
+                                                       )
+                                                       )
                                                        ),
                                                        column(width=8,
                                                               tabBox(width = 12,
@@ -246,6 +247,68 @@ shinyUI(
                                                    )
                                           )
                                    )
+                            )
+                        )
+                ),
+                tabItem(tabName="about",
+                        fluidRow(
+                            column(width=7,
+                                   h3("Cadre du Projet"),
+                                   p("Cette application ",tags$b("Rshiny")," s'inscrit dans un projet de création Rshiny pour le cours ",tags$b("Analyse de données massives sous R, supervisé par Benoit Thieurmel."),
+                                     br(),
+                                     "Pour ce projet nous avons donc décidé de prendre le jeu de données ",tags$b("cars.csv")," téléchargé sur le site ",tags$b("Kaggle,"),"accessible en cliquant",a("ici.",href="https://www.kaggle.com/debajyotipodder/co2-emission-by-vehicles"),
+                                     style = "background-color:#e1d2b8;padding:15px;border-radius:10px;text-align:justify;font-size:18px"
+                                   ),
+                                   h3("A propos des auteurs"),
+                                   p("Nous sommes des étudiants actuellement en master",tags$b("sciences des données"),"au sein de l'institut agro basé à Rennes.",
+                                     "Ce projet est disponible sur",tags$b("github"),"sur lequel sera aussi disponible nos autres projets.",
+                                     style = "background-color:#e1d2b8;padding:15px;border-radius:10px;text-align:justify;font-size:18px"),
+                                   br(),
+                                   h3("Liste des packages utilisés"),
+                                   br(),
+                                   p("-shiny",
+                                     br(),
+                                     "-shinyWidgets",
+                                     br(),
+                                     "-nnet",
+                                     br(),
+                                     "-leaps",
+                                     br(),
+                                     "-pls",
+                                     br(),
+                                     "-groupdata2",
+                                     br(),
+                                     "-boot",
+                                     br(),
+                                     "-FactoMineR",
+                                     br(),
+                                     "-lme4",
+                                     br(),
+                                     "-shiny",
+                                     br(),
+                                     "-shinydashboard",
+                                     br(),
+                                     "-ggplot2",
+                                     br(),
+                                     "-forcats",
+                                     br(),
+                                     "-plotly"
+                                   ),
+                                   br(),
+                                   tags$b("Contact"),
+                                   br(),
+                                   a(icon("linkedin"),"@florence-ghestem-data-sciences/",href="https://www.linkedin.com/in/florence-ghestem-data-sciences/"),
+                                   br(),
+                                   a(icon("linkedin"),"@elias-hermance-datascience/",href="https://www.linkedin.com/in/elias-hermance-datascience/"),
+                                   br(),
+                                   a(icon("github"),"Easill",href="https://github.com/Easill"),
+                                   br(),
+                                   a(icon("github"),"floghes",href="https://github.com/floghes")
+                            ),
+                            column(width=5,
+                                   a(tags$img(src="images.jpg",width="485px",height="104px"),href="https://www.agrocampus-ouest.fr/"), # ajout de l'image
+                                   br(),
+                                   a(tags$img(src="Kaggle_logo.png",width="485px",height="154px"),href="https://www.kaggle.com/") # ajout de l'image
                             )
                         )
                 )
