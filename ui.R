@@ -15,7 +15,7 @@ shinyUI(
                 menuItem("Model Selection", tabName = "model", icon = icon("wave-square")),
                 menuItem("Datas",tabName = "data", icon=icon("th")),
                 menuItem("Source Code for app", tabName = "code", icon=icon("file-code")),
-                menuItem("About", tabName = "about", icon=icon("address-book"))
+                menuItem("About", tabName = "about", icon=icon("info-circle"))
             )
         ),
         # contenu du corps de la page
@@ -256,7 +256,7 @@ shinyUI(
                                    h3("Cadre du Projet"),
                                    p("Cette application ",tags$b("Rshiny")," s'inscrit dans un projet de création Rshiny pour le cours ",tags$b("Analyse de données massives sous R, supervisé par Benoit Thieurmel."),
                                      br(),
-                                     "Pour ce projet nous avons donc décidé de prendre le jeu de données ",tags$b("cars.csv")," téléchargé sur le site ",tags$b("Kaggle,"),"accessible en cliquant",a("ici.",href="https://www.kaggle.com/debajyotipodder/co2-emission-by-vehicles"),
+                                     "Pour ce projet nous avons utilisé le jeu de données ",tags$b("cars.csv")," téléchargé sur le site ",tags$b("Kaggle,"),"accessible en cliquant",a("ici.",href="https://www.kaggle.com/debajyotipodder/co2-emission-by-vehicles"),
                                      style = "background-color:#e1d2b8;padding:15px;border-radius:10px;text-align:justify;font-size:18px"
                                    ),
                                    h3("A propos des auteurs"),
