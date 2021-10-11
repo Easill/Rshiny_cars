@@ -308,6 +308,7 @@ shinyUI(
                             column(width=5,
                                    a(tags$img(src="images.jpg",width="485px",height="104px"),href="https://www.agrocampus-ouest.fr/"), # ajout de l'image
                                    br(),
+                                   br(),
                                    a(tags$img(src="Kaggle_logo.png",width="485px",height="154px"),href="https://www.kaggle.com/") # ajout de l'image
                             )
                         )
