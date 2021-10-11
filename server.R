@@ -81,12 +81,13 @@ shinyServer(function(input, output, session) {
     
     # on reccupere les coeffs
     coeff<-reactive({
-        as.data.frame(summary(Bestmod())$coefficients[-1,])
+        as.data.frame(summary(Bestmod())$coefficients)
     })
     
+
     # plot du poids des variables (coefficients)
     output$coef <- renderPlotly({
-        p<-ggplot(coeff(), aes(x= rownames(coeff()), y=coeff()$Estimate))+
+        p<-ggplot(coeff()[-1,], aes(x= (rownames(coeff()[-1,])), y=coeff()[-1,1]))+
             geom_bar(stat="identity", fill="#00c0ef", alpha = 0.6)+
             ggtitle("Poids des variables dans le modèle") +
             xlab("Variables")+
